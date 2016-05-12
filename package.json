@@ -1,0 +1,31 @@
+{
+  "name": "argile",
+  "version": "0.1.0",
+  "description": "Convert SQL rows to js objects",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha --colors -w ./tests/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthieurobin/argile.git"
+  },
+  "keywords": [
+    "rows",
+    "js",
+    "convert",
+    "transform",
+    "object",
+    "sql"
+  ],
+  "author": "Matthieu Robin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matthieurobin/argile/issues"
+  },
+  "homepage": "https://github.com/matthieurobin/argile#readme",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.4.5"
+  }
+}
