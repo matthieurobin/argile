@@ -14,43 +14,59 @@ describe('public properties', function () {
 
 });
 
-describe('convert one sql row', function () {
 
-  describe('one level object', function () {
+describe('one level object', function () {
 
-      it('sql columns = object properties', function () {
-        var row = {id: 1, label: 'A'};
-        var model = model = {
-          id    : 'id',
-          label : 'label'
-        };
-        var res = argile.convert(row, model); 
-        expect(res).to.be.an('object');
-        expect(res).to.eql(row);
-      });
+  it('sql columns = object properties', function () {
+    var rows  = [{id: 1, label: 'A'}, {id: 2, label: 'B'}];
+    var model = model = {
+      id    : 'id',
+      label : 'label'
+    };
+    var res = argile.convert(rows, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql(rows);
+  });
 
-      it('sql columns != object properties', function () {
-        var row = {idBook: 1, labelBook: 'A'};
-        var model = model = {
-          id    : 'idBook',
-          label : 'labelBook'
-        };
-        var res = argile.convert(row, model); 
-        expect(res).to.be.an('object');
-        expect(res).to.eql({id: 1, label: 'A'});
-      });
+  it('sql column names != object property names', function () {
+    var row   = [{idBook: 1, labelBook: 'A'}, {idBook: 2, labelBook: 'B'}];
+    var model = model = {
+      id    : 'idBook',
+      label : 'labelBook'
+    };
+    var res = argile.convert(row, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([{id: 1, label: 'A'}, {id: 2, label: 'B'}]);
+  });
 
-      it('mixed sql columns', function () {
-        var row = {label: 'A', id: 1};
-        var model = model = {
-          id    : 'id',
-          label : 'label'
-        };
-        var res = argile.convert(row, model); 
-        expect(res).to.be.an('object');
-        expect(res).to.eql({id: 1, label: 'A'});
-      });
+  it('mixed sql columns', function () {
+    var row   = [{label: 'A', id: 1}, {label: 'B', id: 2}];
+    var model = model = {
+      id    : 'id',
+      label : 'label'
+    };
+    var res = argile.convert(row, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([{id: 1, label: 'A'}, {id: 2, label: 'B'}]);
+  });
 
+});
+
+describe('two levels object', function () {
+
+  it('sql columns = object properties', function () {
+    var rows  = [{id: 1, label: 'A', idAuthor: 2, name: 'Louis'}];
+    var model = model = {
+      id    : 'id',
+      label : 'label',
+      author : {
+        id   : 'idAuthor',
+        name : 'name'
+      }
+    };
+    var res = argile.convert(rows, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([{id: 1, label: 'A', author: {id: 2, name: 'Louis'}}]);
   });
 
 });
