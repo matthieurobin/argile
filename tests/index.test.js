@@ -69,6 +69,21 @@ describe('two levels object', function () {
     expect(res).to.eql([{id: 1, label: 'A', author: {id: 2, name: 'Louis'}}]);
   });
 
+  it('null properties', function () {
+    var rows  = [{id: 1, label: 'A', idAuthor: null, name: null}];
+    var model = model = {
+      id    : '*id',
+      label : 'label',
+      author : {
+        id   : '*idAuthor',
+        name : 'name'
+      }
+    };
+    var res = argile.convert(rows, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([{id: 1, label: 'A', author: null}]);
+  });
+
 });
 
 describe('sub arrays', function () {
@@ -110,5 +125,52 @@ describe('sub arrays', function () {
       {id: 5, label: 'C', authors: [{id: 1, name: 'Marc'}, {id: 2, name: 'Louis'}]}
     ]);
   });
+
+  it('one sub array with null results', function () {
+    var rows  = [{id: 1, label: 'A', idAuthor: null, name: null}];
+    var model = model = {
+      id    : '*id',
+      label : 'label',
+      authors : [{
+        id   : '*idAuthor',
+        name : 'name'
+      }]
+    };
+    var res = argile.convert(rows, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([{id: 1, label: 'A', authors: []}]);
+  });
+
+  /*it('sub array in sub array', function () {
+    var rows  = [
+      {id: 1, label: 'A', idAuthor: 2, name: 'Louis', idBook: 1, title: 'Book1'},
+      {id: 1, label: 'A', idAuthor: 2, name: 'Louis', idBook: 2, title: 'Book2'},
+      {id: 1, label: 'A', idAuthor: 1, name: 'Marc' , idBook: 3, title: 'Book3'},
+    ];
+    var model = model = {
+      id    : '*id',
+      label : 'label',
+      authors : [{
+        id   : '*idAuthor',
+        name : 'name',
+        books : [{
+          id : '*idBook',
+          title : 'title'
+        }]
+      }]
+    };
+    var res = argile.convert(rows, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([
+      {id: 1, label: 'A', authors: [
+        {id: 1, name: 'Marc', books: [
+          {id: 3, title: 'Book3'}
+        ]}, {id: 2, name: 'Louis', books: [
+          {id:1, title: 'Book1'},
+          {id:2, title: 'Book2'}
+        ]}
+      ]},
+    ]);
+  });*/
 
 });
