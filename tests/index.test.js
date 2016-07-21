@@ -89,7 +89,7 @@ describe('two levels object', function () {
 describe('sub arrays', function () {
 
   it('one sub array', function () {
-    var rows  = [{id: 1, label: 'A', idAuthor: 2, name: 'Louis'}, {id: 1, label: 'A', idAuthor: 1, name: 'Marc'}];
+    var rows  = [{id: 1, label: 'A', idAuthor: 1, name: 'Louis'}, {id: 1, label: 'A', idAuthor: 2, name: 'Marc'}];
     var model = model = {
       id    : '*id',
       label : 'label',
@@ -100,12 +100,12 @@ describe('sub arrays', function () {
     };
     var res = argile.convert(rows, model); 
     expect(res).to.be.an('object');
-    expect(res).to.eql([{id: 1, label: 'A', authors: [{id: 1, name: 'Marc'}, {id: 2, name: 'Louis'}]}]);
+    expect(res).to.eql([{id: 1, label: 'A', authors: [{id: 1, name: 'Louis'}, {id: 2, name: 'Marc'}]}]);
   });
 
   it('one sub array, multiple rows', function () {
     var rows  = [
-      {id: 1, label: 'A', idAuthor: 2, name: 'Louis'}, {id: 1, label: 'A', idAuthor: 1, name: 'Marc'},
+      {id: 1, label: 'A', idAuthor: 1, name: 'Louis'}, {id: 1, label: 'A', idAuthor: 2, name: 'Marc'},
       {id: 3, label: 'B', idAuthor: 3, name: 'Tom'},
       {id: 5, label: 'C', idAuthor: 1, name: 'Marc'}, {id: 5, label: 'C', idAuthor: 2, name: 'Louis'},
     ];
@@ -120,7 +120,7 @@ describe('sub arrays', function () {
     var res = argile.convert(rows, model); 
     expect(res).to.be.an('object');
     expect(res).to.eql([
-      {id: 1, label: 'A', authors: [{id: 1, name: 'Marc'}, {id: 2, name: 'Louis'}]},
+      {id: 1, label: 'A', authors: [{id: 1, name: 'Louis'}, {id: 2, name: 'Marc'}]},
       {id: 3, label: 'B', authors: [{id: 3, name: 'Tom'}]},
       {id: 5, label: 'C', authors: [{id: 1, name: 'Marc'}, {id: 2, name: 'Louis'}]}
     ]);
@@ -141,36 +141,27 @@ describe('sub arrays', function () {
     expect(res).to.eql([{id: 1, label: 'A', authors: []}]);
   });
 
-  /*it('sub array in sub array', function () {
+  it('should conserve the sql order', function () {
     var rows  = [
-      {id: 1, label: 'A', idAuthor: 2, name: 'Louis', idBook: 1, title: 'Book1'},
-      {id: 1, label: 'A', idAuthor: 2, name: 'Louis', idBook: 2, title: 'Book2'},
-      {id: 1, label: 'A', idAuthor: 1, name: 'Marc' , idBook: 3, title: 'Book3'},
+      {id: 5, label: 'C', idAuthor: 2, name: 'Marc'}, {id: 5, label: 'C', idAuthor: 1, name: 'Louis'},
+      {id: 1, label: 'A', idAuthor: 4, name: 'Louis'}, {id: 1, label: 'A', idAuthor: 2, name: 'Marc'},
+      {id: 3, label: 'B', idAuthor: 3, name: 'Tom'}
     ];
     var model = model = {
       id    : '*id',
       label : 'label',
       authors : [{
         id   : '*idAuthor',
-        name : 'name',
-        books : [{
-          id : '*idBook',
-          title : 'title'
-        }]
+        name : 'name'
       }]
     };
     var res = argile.convert(rows, model); 
     expect(res).to.be.an('object');
     expect(res).to.eql([
-      {id: 1, label: 'A', authors: [
-        {id: 1, name: 'Marc', books: [
-          {id: 3, title: 'Book3'}
-        ]}, {id: 2, name: 'Louis', books: [
-          {id:1, title: 'Book1'},
-          {id:2, title: 'Book2'}
-        ]}
-      ]},
+      {id: 5, label: 'C', authors: [{id: 2, name: 'Marc'}, {id: 1, name: 'Louis'}]},
+      {id: 1, label: 'A', authors: [{id: 4, name: 'Louis'}, {id: 2, name: 'Marc'}]},
+      {id: 3, label: 'B', authors: [{id: 3, name: 'Tom'}]}
     ]);
-  });*/
+  });
 
 });
