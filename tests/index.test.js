@@ -88,6 +88,21 @@ describe('two levels object', function () {
 
 describe('sub arrays', function () {
 
+  it('one sub array with primary key at the end of the object in the sub array', function () {
+    var rows  = [{id: 1, label: 'A', idAuthor: 1, name: 'Louis'}, {id: 1, label: 'A', idAuthor: 2, name: 'Louis'}];
+    var model = model = {
+      id    : '*id',
+      label : 'label',
+      authors : [{
+        name : 'name',
+        id   : '*idAuthor'
+      }]
+    };
+    var res = argile.convert(rows, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([{id: 1, label: 'A', authors: [{id: 1, name: 'Louis'}, {id: 2, name: 'Louis'}]}]);
+  });
+
   it('one sub array', function () {
     var rows  = [{id: 1, label: 'A', idAuthor: 1, name: 'Louis'}, {id: 1, label: 'A', idAuthor: 2, name: 'Marc'}];
     var model = model = {
