@@ -1,6 +1,6 @@
 {
   "name": "argile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert SQL rows to js objects",
   "main": "lib/index.js",
   "scripts": {
