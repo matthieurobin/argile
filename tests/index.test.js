@@ -84,6 +84,21 @@ describe('two levels object', function () {
     expect(res).to.eql([{id: 1, label: 'A', author: null}]);
   });
 
+  it('first id = null', function () {
+    var rows  = [{id: 1, value: 'A', idAlert: null, name: null}];
+    var model = model = {
+      id   : '*idAlert',
+      name : 'name',
+      book : {
+        id    : '*id',
+        label : 'label',
+      }
+    };
+    var res = argile.convert(rows, model); 
+    expect(res).to.be.an('object');
+    expect(res).to.eql([]);
+  });
+
 });
 
 describe('sub arrays', function () {

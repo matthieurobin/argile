@@ -17,7 +17,7 @@ The figure above pesents a simple database. We want to retrieve all the posts.
 
 The following request returns all the data in the database.
 
-```SQL
+```sql
   SELECT
     post.id,
     post.title,
